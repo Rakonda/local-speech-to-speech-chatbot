@@ -25,5 +25,8 @@ ENV/
 Thumbs.db
 
 # Model directories (optional, comment out if you want to track models)
-# vosk-models/
-# piper-voice/
+vosk-models/
+piper-voice/
+
+# ignore generated wave audio file
+*.wav
