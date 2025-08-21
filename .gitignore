@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VSCode
+.vscode/
+
+# Mac and Linux system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Model directories (optional, comment out if you want to track models)
+vosk-models/
+piper-voice/
+gguf-models/
+
+# ignore generated wave audio file
+*.wav
