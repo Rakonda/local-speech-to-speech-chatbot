@@ -41,7 +41,7 @@ def main():
     install_requirements()
     # 3. Download Vosk/Piper models
     run_setup_models()
-    print('Project setup complete. Activate the environment and run chatbot.py.')
+    print('Project setup complete. Activate the environment and run chatbot.py for no-stream chat mode or chatbot-stream.py for stream chat mode.')
 
 
 if __name__ == '__main__':

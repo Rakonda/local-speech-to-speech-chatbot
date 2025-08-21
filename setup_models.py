@@ -11,6 +11,7 @@ PIPER_MODEL_URL = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/e
 PIPER_MODEL_METADATA_URL = "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/high/en_US-libritts-high.onnx.json?download=true"
 PIPER_MODEL_PATH = Path("piper-voice/en_US-libritts-high.onnx")
 PIPER_MODEL_METADATA_PATH = Path("piper-voice/en_US-libritts-high.onnx.json")
+GGUF_URL = "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf"
 
 
 def download_file(url, destination):
@@ -65,10 +66,35 @@ def ensure_piper_model_metadata():
     print("Piper .onnx metadata not found. Downloading...")
     download_file(PIPER_MODEL_METADATA_URL, PIPER_MODEL_METADATA_PATH)
 
+def ensure_gguf_model():
+    """
+    Ensures GGUF Phi-3-mini-4k-instruct-q4.gguf is present in gguf-models/.
+    Downloads from HuggingFace if not found.
+    """
+    import sys
+    GGUF_DIR = Path("gguf-models")
+    GGUF_PATH = GGUF_DIR / "Phi-3-mini-4k-instruct-q4.gguf"
+    if GGUF_PATH.exists():
+        print(f"GGUF model already present at {GGUF_PATH}")
+        return
+    GGUF_DIR.mkdir(parents=True, exist_ok=True)
+    print("GGUF model not found. Downloading...")
+    def progress_bar(block_num, block_size, total_size):
+        downloaded = block_num * block_size
+        percent = min(int(downloaded * 100 / total_size), 100) if total_size > 0 else 0
+        bar = ('#' * (percent // 2)).ljust(50)
+        sys.stdout.write(f'\r[{bar}] {percent}%')
+        sys.stdout.flush()
+    import urllib.request
+    urllib.request.urlretrieve(GGUF_URL, str(GGUF_PATH), reporthook=progress_bar)
+    sys.stdout.write('\n')
+    print(f"Downloaded to {GGUF_PATH}")
+
 def main():
     ensure_vosk_model()
     ensure_piper_model()
     ensure_piper_model_metadata()
+    ensure_gguf_model()
     print("Model setup complete.")
 
 
